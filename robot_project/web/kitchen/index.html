@@ -1,0 +1,6 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kitchen dashboard</title><link rel="stylesheet" href="/shared/styles.css"></head>
+<body><header><h1>Kitchen dashboard</h1><div><span id="live" class="status">Offline</span> <button id="logout" class="secondary">Log out</button></div></header>
+<main><section id="login" class="card login"><h2>Kitchen sign in</h2><form id="login-form"><label>Username<input id="username" value="kitchen" required></label><label>Password<input id="password" type="password" value="kitchen123" required></label><button>Sign in</button></form><div id="login-error"></div></section>
+<section id="board" class="hidden"><div class="toolbar"><button id="reload" class="secondary">Reload orders</button><span class="muted">New orders stay highlighted until acknowledged by an action.</span></div><div id="orders" class="grid"></div></section></main>
+<script src="/shared/api.js"></script><script src="app.js"></script></body></html>
+

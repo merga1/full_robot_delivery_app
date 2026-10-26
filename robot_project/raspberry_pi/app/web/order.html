@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Order &middot; Table {{TABLE_CODE}}</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>{{TABLE_NAME}}</h1>
+      <div class="sub">Table {{TABLE_CODE}} &middot; scan again to order</div>
+    </div>
+    <button class="btn orange" id="callBtn">Call the robot</button>
+  </header>
+
+  <div class="container">
+    <div id="menuBox" class="card">
+      <div class="row between">
+        <strong>Menu</strong>
+        <span class="muted" id="menuHint">loading&hellip;</span>
+      </div>
+    </div>
+
+    <div class="grid" id="menuGrid"></div>
+
+    <div class="card cart">
+      <div class="row between">
+        <div><strong>Your order</strong> <span class="muted" id="cartCount">0 items</span></div>
+        <div>Total <strong id="cartTotal">$0.00</strong></div>
+      </div>
+      <div id="cartLines" style="margin-top:8px"></div>
+      <div style="margin-top:8px">
+        <label for="note">Note for the kitchen</label>
+        <textarea id="note" rows="2" placeholder="e.g. no onions"></textarea>
+      </div>
+      <div class="row" style="justify-content:flex-end;margin-top:10px">
+        <button class="btn green" id="orderBtn">Send to the kitchen</button>
+      </div>
+    </div>
+
+    <div class="card hide" id="statusBox">
+      <div class="row between">
+        <strong id="statusTitle">Order</strong>
+        <span class="badge" id="statusBadge">placed</span>
+      </div>
+      <div class="muted" id="statusText" style="margin-top:6px"></div>
+    </div>
+  </div>
+
+  <script>
+    window.TABLE_CODE = "{{TABLE_CODE}}";
+  </script>
+  <script src="/static/order.js"></script>
+</body>
+</html>

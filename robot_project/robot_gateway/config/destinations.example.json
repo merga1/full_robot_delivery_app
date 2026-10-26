@@ -1,0 +1,12 @@
+[
+  {
+    "id": "home",
+    "label": "Home / charging dock",
+    "pose": {"frame_id": "map", "x": 0.0, "y": 0.0, "z": 0.0, "qz": 0.0, "qw": 1.0}
+  },
+  {
+    "id": "table_01",
+    "label": "Table 01",
+    "pose": {"frame_id": "map", "x": 1.0, "y": 0.0, "z": 0.0, "qz": 0.0, "qw": 1.0}
+  }
+]

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Food Delivery Robot</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Robot Menu">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="assets/logo.png">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Robot Idle Screen Overlay -->
+  <div id="idle-screen" class="idle-overlay">
+    <div class="robot-face">
+      <div class="eye left-eye"><div class="pupil"></div></div>
+      <div class="eye right-eye"><div class="pupil"></div></div>
+    </div>
+
+    <!-- Robotic Animated Mouth -->
+    <div class="mouth" id="robot-mouth">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+
+    <div class="greeting-content">
+      <h2>HELLO! I AM YOUR FRIENDLY SERVICE ROBOT.</h2>
+      <p class="sub-greeting">READY TO TAKE YOUR ORDER.</p>
+      <p class="amharic-greeting">ሰላም! እኔ የእርስዎ ወዳጃዊ የአገልግሎት ሮቦት ነኝ። ትዕዛዝዎን ለመቀበል ዝግጁ ነኝ።</p>
+    </div>
+    <div class="tap-to-wake">
+      <span>👆 Tap anywhere to open menu</span>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-container">
+      <img src="assets/aologo (1).png" alt="Institute Logo" class="logo" />
+      <h1>AI Service Robot Menu</h1>
+      <button id="darkModeToggle" class="theme-btn" title="Toggle Dark Mode">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Table Selector -->
+    <section class="table-selection">
+      <label for="table-select">Select Table:</label>
+      <select id="table-select">
+        <option value="1">Table 1</option>
+        <option value="2">Table 2</option>
+        <option value="3">Table 3</option>
+        <option value="4">Table 4</option>
+        <option value="5">Table 5</option>
+      </select>
+    </section>
+
+    <!-- Food Menu -->
+    <section class="menu">
+      <h2>Choose Your Food</h2>
+      <div class="food-grid">
+        <div class="food-card" data-item="Injera Firfir">
+          <img src="assets/firfir.png" alt="Injera Firfir" />
+          <h3>Injera Firfir</h3>
+          <button class="order-btn">Add</button>
+        </div>
+        <div class="food-card" data-item="pasta">
+          <img src="assets/pasta.png" alt="pasta" />
+          <h3>pasta</h3>
+          <button class="order-btn">Add</button>
+        </div>
+        <div class="food-card" data-item="Shiro Wot">
+          <img src="assets/shiro.png" alt="Shiro Wot" />
+          <h3>Shiro Wot</h3>
+          <button class="order-btn">Add</button>
+        </div>
+        <div class="food-card" data-item="Doro Wot">
+          <img src="assets/doro.png" alt="Doro Wot" />
+          <h3>Doro Wot</h3>
+          <button class="order-btn">Add</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Drinks Menu -->
+    <section class="menu">
+      <h2>Choose Your Drinks</h2>
+      <div class="food-grid">
+        <div class="food-card" data-item="Tea">
+          <img src="assets/tea.png" alt="Tea" />
+          <h3>Tea</h3>
+          <button class="order-btn">Add</button>
+        </div>
+        <div class="food-card" data-item="Coffee">
+          <img src="assets/coffe.png" alt="Coffee" />
+          <h3>Coffee</h3>
+          <button class="order-btn">Add</button>
+        </div>
+        <div class="food-card" data-item="Milk">
+          <img src="assets/milk.png" alt="Milk" />
+          <h3>Milk</h3>
+          <button class="order-btn">Add</button>
+        </div>
+        <div class="food-card" data-item="Water">
+          <img src="assets/water.png" alt="Water" />
+          <h3>Water</h3>
+          <button class="order-btn">Add</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Summaries -->
+    <section class="order-summary">
+      <h2>Order Summary</h2>
+      <div id="order-lists" class="tables-container">
+        <div class="table-card">
+          <h3>Table 1</h3>
+          <ul id="order-list-1"></ul>
+          <button class="confirm-btn" data-table="1">Confirm Order</button>
+          <button class="cancel-btn" data-table="1">Cancel</button>
+        </div>
+        <div class="table-card">
+          <h3>Table 2</h3>
+          <ul id="order-list-2"></ul>
+          <button class="confirm-btn" data-table="2">Confirm Order</button>
+          <button class="cancel-btn" data-table="2">Cancel</button>
+        </div>
+        <div class="table-card">
+          <h3>Table 3</h3>
+          <ul id="order-list-3"></ul>
+          <button class="confirm-btn" data-table="3">Confirm Order</button>
+          <button class="cancel-btn" data-table="3">Cancel</button>
+        </div>
+        <div class="table-card">
+          <h3>Table 4</h3>
+          <ul id="order-list-4"></ul>
+          <button class="confirm-btn" data-table="4">Confirm Order</button>
+          <button class="cancel-btn" data-table="4">Cancel</button>
+        </div>
+        <div class="table-card">
+          <h3>Table 5</h3>
+          <ul id="order-list-5"></ul>
+          <button class="confirm-btn" data-table="5">Confirm Order</button>
+          <button class="cancel-btn" data-table="5">Cancel</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Powered by Ethiopian Artificial Intelligence Institute</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

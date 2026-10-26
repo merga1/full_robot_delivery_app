@@ -1,0 +1,18 @@
+[Unit]
+Description=Smart Restaurant ROS 2 Robot Gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=robot
+WorkingDirectory=/opt/restaurant-robot-gateway
+EnvironmentFile=/etc/restaurant-robot-gateway.env
+ExecStart=/usr/bin/env python3 -m robot_gateway
+Restart=always
+RestartSec=5
+# Source ROS 2 and the robot workspace in a wrapper if the distro does not
+# expose rclpy to the system Python directly.
+
+[Install]
+WantedBy=multi-user.target

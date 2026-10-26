@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kitchen Display</title>
+  <link rel="stylesheet" href="kitchen.css" />
+  <script src="config.js"></script>
+</head>
+<body>
+  <h1>Kitchen Orders</h1>
+  <div id="status">Connecting to server...</div>
+  <section id="login">
+    <input id="username" placeholder="Kitchen username" autocomplete="username" />
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+    <button id="login-button" type="button">Sign in</button>
+    <p id="login-error"></p>
+  </section>
+  <button id="refresh" type="button">Refresh</button>
+  
+  <div id="orders-container">
+    </div>
+
+  <script src="kitchen.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+[Unit]
+Description=Robot controller API (FastAPI + ROS 2 hub)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=@USER@
+Environment=HOME=@HOME@
+WorkingDirectory=@HOME@/raspberry_pi
+ExecStart=/bin/bash @HOME@/raspberry_pi/run_server_ros.sh
+Restart=on-failure
+RestartSec=5
+# On stop the API shuts the ROS stack down gracefully (up to ~26 s)
+TimeoutStopSec=40
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,58 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+#status {
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#orders-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.order-ticket {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  padding: 15px 20px;
+}
+
+.order-ticket h2 {
+  margin-top: 0;
+  color: #d9534f; /* Red color for table */
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.order-ticket ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 5px;
+}
+
+.order-ticket li {
+  font-size: 1.2rem;
+  padding: 8px 0;
+  font-weight: 500;
+  border-bottom: 1px dashed #eee;
+}
+
+.order-ticket li:last-child {
+  border-bottom: none;
+}

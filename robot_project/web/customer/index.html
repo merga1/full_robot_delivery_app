@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Order from AI Service Restaurant</title>
+  <link rel="stylesheet" href="/shared/styles.css">
+</head>
+<body class="customer-page">
+  <header class="site-header customer-header">
+    <a class="brand" href="/customer/" aria-label="AI Service Restaurant home">
+      <span class="brand-mark">✦</span>
+      <span><small class="eyebrow">AI SERVICE</small><strong>Restaurant</strong></span>
+    </a>
+    <div class="header-actions">
+      <span id="connection" class="status status-light">Connecting…</span>
+      <span class="cart-pill"><span id="cart-count">0</span> items</span>
+    </div>
+  </header>
+
+  <main class="customer-main">
+    <section class="customer-hero">
+      <div>
+        <p class="eyebrow accent">WELCOME TO THE TABLE</p>
+        <h1>Good food, delivered<br><em>with a little magic.</em></h1>
+        <p class="hero-copy">Choose your favourites, tell us where you are sitting, and our kitchen will take care of the rest.</p>
+      </div>
+      <div class="hero-orbit" aria-hidden="true"><span>🍽</span><i>✦</i><b>Fresh<br>today</b></div>
+    </section>
+
+    <section class="card order-context">
+      <div class="context-intro"><span class="step-number">01</span><div><strong>Tell us where to serve</strong><p class="muted">Your table helps the robot find you.</p></div></div>
+      <div class="context-fields">
+        <label>Table<select id="table"></select></label>
+        <label>Your name <span class="muted">(optional)</span><input id="customer-name" maxlength="80" placeholder="e.g. Sara"></label>
+      </div>
+    </section>
+
+    <section id="error" class="hidden"></section>
+
+    <section class="menu-section">
+      <div class="section-heading">
+        <div><p class="eyebrow accent">02 · EXPLORE THE MENU</p><h2>Made for sharing</h2></div>
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="menu-search" type="search" placeholder="Search food or drinks" aria-label="Search menu"></label>
+      </div>
+      <div id="categories" class="category-tabs" role="tablist" aria-label="Menu categories"></div>
+      <div id="menu" class="menu-grid"><p class="muted">Loading menu…</p></div>
+    </section>
+
+    <section class="card order-panel">
+      <div class="order-panel-heading"><div><p class="eyebrow accent">03 · YOUR ORDER</p><h2>Ready when you are</h2></div><span id="cart-summary" class="muted">Your basket is empty</span></div>
+      <label>Special instructions<textarea id="note" rows="2" maxlength="280" placeholder="Allergies, spice level, or preparation notes"></textarea></label>
+      <div class="order-total-row"><div><span class="muted">Order total</span><strong id="total">0.00</strong></div><button id="place" class="primary-button" disabled>Place order <span aria-hidden="true">→</span></button></div>
+    </section>
+
+    <section id="tracking" class="card tracking-card hidden">
+      <div class="section-heading"><div><p class="eyebrow accent">YOUR ORDER</p><h2>Order <span id="order-code"></span></h2></div><button class="secondary" id="refresh">Refresh status</button></div>
+      <p id="order-status"></p><div id="timeline" class="timeline"></div><div id="mission" class="muted"></div>
+      <button id="collect" class="primary-button hidden">Confirm order collected</button>
+    </section>
+  </main>
+  <script src="/shared/api.js"></script><script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+[Unit]
+Description=Robot discovery beacon (UDP 9999 + mDNS)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=@USER@
+ExecStart=/usr/bin/python3 @HOME@/raspberry_pi/pi_beacon.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

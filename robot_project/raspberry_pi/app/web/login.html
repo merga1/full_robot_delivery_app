@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kitchen login</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Kitchen dashboard</h1>
+      <div class="sub">Please sign in</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card" style="max-width:400px;margin:30px auto">
+      <div style="margin-bottom:10px">
+        <label for="user">Username</label>
+        <input id="user" autocomplete="username" placeholder="kitchen">
+      </div>
+      <div style="margin-bottom:10px">
+        <label for="pass">Password</label>
+        <input id="pass" type="password" autocomplete="current-password">
+      </div>
+      <button class="btn" id="loginBtn" style="width:100%">Sign in</button>
+      <div class="muted" id="msg" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <script src="/static/login.js"></script>
+</body>
+</html>

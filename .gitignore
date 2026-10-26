@@ -1,0 +1,85 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+.pub-cache/
+*.g.dart
+*.freezed.dart
+
+# Mobile builds
+**/android/.gradle/
+**/android/.idea/
+**/android/app/build/
+**/android/build/
+**/android/local.properties
+**/android/.cxx/
+**/android/key.properties
+**/android/app/*.jks
+**/android/app/*.keystore
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/.last_build_id
+**/xcuserdata/
+**/DerivedData/
+*.xcuserstate
+
+# IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+*~
+
+# Logs and DBs
+*.log
+logs/
+*.pid
+*.tmp
+*.temp
+*.swp
+*.swo
+*.sqlite
+*.sqlite3
+*.db
+hs_err_pid*.log
+
+# Project specific
+**/raspberry_pi/real1_link.env
+**/raspberry_pi/app/robot.db*

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kitchen dashboard</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Kitchen dashboard</h1>
+      <div class="sub">Robot &middot; orders</div>
+    </div>
+    <div class="row">
+      <span class="muted" id="clock"></span>
+      <button class="btn ghost" id="refreshBtn">Refresh</button>
+      <button class="btn ghost" id="logoutBtn">Log out</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <div class="row between">
+        <strong>Open orders</strong>
+        <span class="muted" id="openHint">loading&hellip;</span>
+      </div>
+    </div>
+    <div class="orders" id="orders"></div>
+
+    <div class="card" style="margin-top:18px">
+      <strong>Menu</strong>
+      <div class="muted" id="menuHint" style="margin:4px 0 8px"></div>
+      <table><thead><tr><th>Item</th><th>Category</th><th>Price</th><th></th></tr></thead>
+      <tbody id="menuRows"></tbody></table>
+    </div>
+
+    <div class="card">
+      <strong>Tables</strong>
+      <div class="muted" id="tableHint" style="margin:4px 0 8px"></div>
+      <table><thead><tr><th>Code</th><th>Name</th><th>Destination</th><th>Seats</th><th>Active</th></tr></thead>
+      <tbody id="tableRows"></tbody></table>
+    </div>
+  </div>
+
+  <script src="/static/kitchen.js"></script>
+</body>
+</html>

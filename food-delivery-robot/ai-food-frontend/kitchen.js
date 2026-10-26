@@ -1,0 +1,14 @@
+const API_BASE = (window.__SMART_RESTAURANT_API__ || `${window.location.origin}/api/v1`).replace(/\/$/, '');
+let accessToken = localStorage.getItem('restaurant_access_token') || '';
+const statusDiv = document.getElementById('status');
+const ordersContainer = document.getElementById('orders-container');
+async function request(path, options = {}) {
+  const response = await fetch(`${API_BASE}${path}`, { ...options, headers: { 'Content-Type': 'application/json', ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}), ...(options.headers || {}) } });
+  const data = await response.json().catch(() => ({})); if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`); return data;
+}
+function actions(order) { const map = { PENDING: ['accept'], ACCEPTED: ['start-preparation'], PREPARING: ['ready'], READY_FOR_PICKUP: ['ready-for-dispatch'] }; return (map[order.status] || []).map(action => `<button data-id="${order.id}" data-action="${action}">${action.replaceAll('-', ' ')}</button>`).join('') + (['PENDING', 'ACCEPTED', 'PREPARING'].includes(order.status) ? `<button data-id="${order.id}" data-action="cancel">cancel</button>` : ''); }
+function render(orders) { ordersContainer.innerHTML = orders.map(order => `<article class="order-ticket"><h2>${order.code} · ${order.table_label}</h2><p class="state">${order.status}</p><ul>${(order.items || []).map(item => `<li>${item.qty} × ${item.name}</li>`).join('')}</ul><div>${actions(order)}</div></article>`).join('') || '<p>No open orders.</p>'; ordersContainer.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => act(button.dataset.id, button.dataset.action))); }
+async function load() { try { render(await request('/orders?limit=200')); statusDiv.textContent = 'Connected ✅'; statusDiv.style.color = 'green'; } catch (error) { statusDiv.textContent = error.message; statusDiv.style.color = 'red'; } }
+async function act(id, action) { try { await request(`/orders/${id}/${action}`, { method: 'POST', body: JSON.stringify(action === 'cancel' ? { reason: 'Kitchen cancelled' } : {}) }); await load(); } catch (error) { alert(error.message); } }
+async function login() { try { const result = await request('/auth/login', { method: 'POST', body: JSON.stringify({ username: document.getElementById('username').value.trim(), password: document.getElementById('password').value }) }); accessToken = result.access_token; localStorage.setItem('restaurant_access_token', accessToken); document.getElementById('login').hidden = true; await load(); } catch (error) { document.getElementById('login-error').textContent = error.message; } }
+document.getElementById('login-button').addEventListener('click', login); document.getElementById('refresh').addEventListener('click', load); if (accessToken) { document.getElementById('login').hidden = true; load(); }

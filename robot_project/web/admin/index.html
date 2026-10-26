@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Restaurant operations</title><link rel="stylesheet" href="/shared/styles.css">
+</head>
+<body>
+  <header><a class="brand" href="/admin/" aria-label="Restaurant operations home"><span class="brand-mark">✦</span><span><small class="eyebrow">AI SERVICE</small><strong>Restaurant admin</strong></span></a><div class="header-actions"><span id="live" class="status status-light">Offline</span><button id="logout" class="secondary">Log out</button></div></header>
+  <main class="admin-main">
+    <section id="login" class="card login"><p class="eyebrow accent">STAFF PORTAL</p><h2>Administrator sign in</h2><form id="login-form"><label>Username<input id="username" value="admin" required></label><label>Password<input id="password" type="password" value="admin123" required></label><button>Open dashboard</button></form><div id="error"></div></section>
+
+    <section id="app" class="hidden">
+      <div id="metrics" class="grid"></div>
+
+      <section class="card" style="margin-top:18px"><div class="section-heading"><div><p class="eyebrow accent">CATALOGUE CONTROL</p><h2>Foods & drinks</h2></div><span class="muted">Manage prices, photos, descriptions and availability.</span></div>
+        <div class="catalog-layout">
+          <section class="card catalog-form"><p class="eyebrow accent" id="menu-form-kicker">NEW MENU ITEM</p><h3 id="menu-form-title">Add food or drink</h3><form id="menu-form">
+            <input id="menu-id" type="hidden">
+            <div class="form-grid">
+              <label class="full">Name<input id="menu-name" maxlength="120" placeholder="e.g. Doro Wot" required></label>
+              <label>Category<input id="menu-category" list="category-options" maxlength="60" placeholder="Food or Drinks" required></label>
+              <label>Price<input id="menu-price" type="number" min="0" step="0.01" placeholder="0.00" required></label>
+              <label class="full">Description<textarea id="menu-description" rows="3" maxlength="2000" placeholder="Tell customers what is in it"></textarea></label>
+              <label class="full">Preparation note<textarea id="menu-preparation" rows="2" maxlength="280" placeholder="Kitchen note, spice level, serving details"></textarea></label>
+              <label>Display order<input id="menu-sort" type="number" min="0" step="1" value="0"></label>
+              <label class="check-row"><span>Availability</span><span><input id="menu-available" type="checkbox" checked> Show to customers</span></label>
+              <label class="full">Upload photo<input id="menu-image" type="file" accept="image/png,image/jpeg,image/webp"><span class="file-hint">JPG, PNG or WEBP · maximum 5 MB</span><img id="menu-image-preview" class="image-preview hidden" alt="Menu photo preview"></label>
+              <label class="full">Or use image URL<input id="menu-image-url" maxlength="300" placeholder="/assets/food.png or https://…"></label>
+            </div>
+            <div class="form-actions"><button id="menu-save">Add to menu</button><button id="menu-cancel" class="secondary hidden" type="button">Cancel edit</button></div><div id="menu-message"></div>
+          </form></section>
+          <section><div id="menu-list" class="catalog-list"><p class="muted">Loading catalogue…</p></div></section>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top:18px"><div class="section-heading"><div><p class="eyebrow accent">RESTAURANT MAP</p><h2>Tables</h2></div><span class="muted">Create, update or remove customer tables and robot destinations.</span></div>
+        <div class="catalog-layout">
+          <section class="card catalog-form"><p class="eyebrow accent" id="table-form-kicker">NEW TABLE</p><h3 id="table-form-title">Add table</h3><form id="table-form">
+            <input id="table-id" type="hidden">
+            <div class="form-grid">
+              <label>Table number<input id="table-number" maxlength="16" placeholder="T01" required></label>
+              <label>Seats<input id="table-seats" type="number" min="0" max="100" step="1" value="4" required></label>
+              <label class="full">Display name<input id="table-name" maxlength="80" placeholder="Table 01" required></label>
+              <label class="full">Robot destination ID<input id="destination" maxlength="80" placeholder="Verified Nav2 destination"></label>
+              <label class="full">Map identifier<input id="map-identifier" maxlength="120" placeholder="Optional map label"></label>
+              <label class="full">Notes<textarea id="table-notes" rows="2" maxlength="280" placeholder="Location or service notes"></textarea></label>
+              <label class="check-row full"><span>Table status</span><span><input id="table-active" type="checkbox" checked> Active for customer ordering</span></label>
+            </div>
+            <div class="form-actions"><button id="table-save">Save table</button><button id="table-cancel" class="secondary hidden" type="button">Cancel edit</button></div><div id="table-message"></div>
+          </form></section>
+          <section><div id="table-list" class="table-list"><p class="muted">Loading tables…</p></div></section>
+        </div>
+      </section>
+
+      <div class="grid" style="margin-top:18px"><section class="card"><div class="section-heading"><div><p class="eyebrow accent">LIVE OPERATIONS</p><h2>Orders</h2></div><div class="toolbar"><button id="reload" class="secondary">Reload</button><select id="order-filter"><option value="">All open and recent</option><option>PENDING</option><option>PREPARING</option><option>READY_FOR_DISPATCH</option><option>LOADED</option><option>OUT_FOR_DELIVERY</option></select></div></div><div id="orders"></div></section>
+        <section class="card"><div class="section-heading"><div><p class="eyebrow accent">ROBOT FLEET</p><h2>Robots</h2></div></div><div id="robots"></div></section></div>
+      <section class="card" style="margin-top:18px"><div class="section-heading"><div><p class="eyebrow accent">ACCOUNTABILITY</p><h2>Audit trail</h2></div></div><div id="audit"></div></section>
+    </section>
+  </main>
+  <datalist id="category-options"><option value="Food"><option value="Drinks"><option value="Breakfast"><option value="Dessert"><option value="Specials"></datalist>
+  <script src="/shared/api.js"></script><script src="app.js"></script>
+</body>
+</html>

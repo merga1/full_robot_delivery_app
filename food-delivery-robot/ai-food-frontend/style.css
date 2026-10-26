@@ -1,0 +1,376 @@
+/* Color Variables */
+:root {
+  --bg-color: #f9f9f9;
+  --text-color: #333333;
+  --card-bg: #fff;
+  --food-card-bg: #e6f0ff;
+  --heading-color: #002080;
+  --header-bg: #0033a0;
+  --border-color: #ddd;
+}
+
+/* Dark Mode Theme Overrides */
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --food-card-bg: #2a2a2a;
+  --heading-color: #6699ff;
+  --header-bg: #001a66;
+  --border-color: #444;
+}
+
+/* Global */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header {
+  background-color: var(--header-bg);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+header .logo {
+  width: 80px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* Dark Mode Toggle Button Styling */
+.theme-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+h1, h2, h3 {
+  margin: 10px 0;
+}
+
+h2, h3 {
+  color: var(--heading-color);
+}
+
+/* Table Selector */
+.table-selection {
+  text-align: center;
+  margin: 20px;
+}
+
+select {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid #ff6600; /* EAII Orange */
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+/* Menus */
+.menu {
+  margin: 20px;
+  padding: 20px;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+}
+
+.food-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.food-card {
+  background-color: var(--food-card-bg);
+  border-radius: 12px;
+  width: 150px;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.food-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.order-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #ff6600; /* EAII Orange */
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.order-btn:hover {
+  background-color: #e65c00;
+}
+
+/* Order Summary */
+.order-summary {
+  margin: 20px;
+}
+
+.tables-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.table-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  width: 180px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.table-card ul {
+  list-style: none;
+  padding: 0;
+  min-height: 50px;
+}
+
+.confirm-btn, .cancel-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #0033a0; /* EAII Blue */
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.confirmed {
+  background-color: #ff6600 !important; /* EAII Orange */
+}
+
+.confirm-btn:hover, .cancel-btn:hover {
+  background-color: #002080;
+}
+
+/* Footer */
+footer {
+  background-color: var(--header-bg);
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  margin-top: 30px;
+  transition: background-color 0.3s ease;
+}
+
+/* Order summary item layout */
+.order-summary ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.remove-item-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  padding: 0;
+}
+
+.remove-item-btn:hover {
+  background: #c0392b;
+}
+
+/* ==================== ROBOT IDLE SCREEN & ANIMATED EYES/MOUTH ==================== */
+.idle-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle, #0b192c 0%, #020617 100%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-align: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  cursor: pointer;
+}
+
+.idle-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.robot-face {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+.eye {
+  width: 90px;
+  height: 90px;
+  background: rgba(0, 51, 160, 0.2);
+  border: 4px solid #0051ff;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(0, 81, 255, 0.6), inset 0 0 15px rgba(0, 81, 255, 0.4);
+  animation: blink 4s infinite;
+}
+
+.pupil {
+  width: 40px;
+  height: 40px;
+  background: #00ffff;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #00ffff;
+  animation: lookAround 6s infinite ease-in-out;
+}
+
+/* ROBOT MOUTH STYLING */
+.mouth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 30px;
+  margin-bottom: 25px;
+}
+
+.mouth .bar {
+  width: 12px;
+  height: 8px;
+  background: #00ffff;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #00ffff;
+  transition: height 0.1s ease;
+}
+
+/* Speaking Animation for Mouth */
+.mouth.speaking .bar:nth-child(1) { animation: mouthTalk 0.4s infinite alternate; }
+.mouth.speaking .bar:nth-child(2) { animation: mouthTalk 0.5s infinite alternate 0.1s; }
+.mouth.speaking .bar:nth-child(3) { animation: mouthTalk 0.3s infinite alternate 0.2s; }
+.mouth.speaking .bar:nth-child(4) { animation: mouthTalk 0.5s infinite alternate 0.1s; }
+.mouth.speaking .bar:nth-child(5) { animation: mouthTalk 0.4s infinite alternate; }
+
+@keyframes mouthTalk {
+  0% { height: 6px; }
+  100% { height: 28px; }
+}
+
+@keyframes blink {
+  0%, 96%, 98% { transform: scaleY(1); }
+  97%, 99% { transform: scaleY(0.1); }
+}
+
+@keyframes lookAround {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(8px, -4px); }
+  50% { transform: translate(-8px, 4px); }
+  75% { transform: translate(4px, 6px); }
+}
+
+.greeting-content h2 {
+  font-size: 26px;
+  color: #00ffff;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.greeting-content .sub-greeting {
+  font-size: 18px;
+  color: #ffaa00;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.greeting-content .amharic-greeting {
+  font-size: 16px;
+  color: #e0e0e0;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.tap-to-wake {
+  position: absolute;
+  bottom: 40px;
+  font-size: 14px;
+  color: #88aaff;
+  animation: pulseHint 2s infinite;
+  letter-spacing: 1px;
+}
+
+@keyframes pulseHint {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
