@@ -9,7 +9,7 @@ import '../theme/app_theme.dart';
 import '../widgets/app_logo.dart';
 import 'home_screen.dart';
 
-/// Connect to Pi on the same Wi‑Fi: auto discover → SSH → start backend → sign in.
+/// Connect to Pi on the same Wi‑Fi: discover → wait for boot service → sign in.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -110,12 +110,14 @@ class _LoginScreenState extends State<LoginScreen> {
         if (devices.isEmpty) {
           _status = 'No Pi found automatically.';
           _error =
-              'Start on the Pi:\n'
-              '  cd ~/raspberry_pi\n'
-              '  bash run_server_ros.sh\n'
-              '  python3 ~/raspberry_pi/pi_beacon.py\n'
-              'Then tap Scan again. Both must be on same Wi‑Fi as tablet '
-              '($_subnetHint.x).';
+              'No Pi detected on this Wi‑Fi ($_subnetHint.x).\n\n'
+              'Make sure:\n'
+              '  • the robot is powered on\n'
+              '  • robot-beacon.service is enabled\n'
+              '  • the tablet and Pi use the same Wi‑Fi\n\n'
+              'First-time Pi setup:\n'
+              '  bash ~/raspberry_pi/install_pi_services.sh\n'
+              'Then tap Scan again.';
         } else if (preferred != null && _subnetMismatch(preferred)) {
           _status = 'Found ${preferred.username}@${preferred.ip} (wrong subnet)';
           _error = _subnetMismatchMessage(preferred);
@@ -135,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final manual = _manualIpCtrl.text.trim();
     if (manual.isNotEmpty) {
       final user = PiDiscoveryService.normalizePiUser(
-        _selected?.username ?? 'abpi',
+        _selected?.username ?? PiDiscoveryService.defaultPiUsername,
       );
       return DiscoveredPi(
         username: user,
@@ -157,13 +159,28 @@ class _LoginScreenState extends State<LoginScreen> {
       timeout: const Duration(seconds: 4),
     );
     if (info == null) {
-      setState(() => _error =
-          'No robot API at http://$manual:8000/health.\n'
-          'On Pi run: hostname -I  then  bash ~/raspberry_pi/run_server_ros.sh');
-      return null;
+      // The API may be down precisely because the user is trying to start it.
+      // Keep the manual target so _connect can wait for systemd or use the
+      // optional SSH fallback instead of stopping before that logic runs.
+      final user = PiDiscoveryService.normalizePiUser(
+        _selected?.username ?? PiDiscoveryService.defaultPiUsername,
+      );
+      setState(
+        () => _status = 'Pi found at $manual, but the API is still starting...',
+      );
+      return DiscoveredPi(
+        username: user,
+        hostname: 'manual',
+        ip: manual,
+        apiPort: PiDiscoveryService.defaultApiPort,
+        source: 'manual',
+      );
     }
     final user = PiDiscoveryService.normalizePiUser(
-      (info['user'] ?? info['pi_user'] ?? _selected?.username ?? 'abpi')
+      (info['user'] ??
+              info['pi_user'] ??
+              _selected?.username ??
+              PiDiscoveryService.defaultPiUsername)
           .toString(),
     );
     return DiscoveredPi(
@@ -203,22 +220,50 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       if (await _remote.isBackendUp(pi.ip, pi.apiPort)) {
-        setState(() => _status = 'Backend already running — signing in...');
+        setState(() => _status = 'Backend is running — signing in...');
       } else {
-        final reachErr = await _remote.checkApiReachable(pi);
-        if (reachErr != null && reachErr.contains('Network unreachable')) {
-          throw Exception(reachErr);
-        }
-        if (_piPassCtrl.text.isEmpty) {
-          setState(() => _error =
-              'Backend not running. Enter Pi password (SSH) to start it,\n'
-              'or on the Pi run: cd ~/raspberry_pi && bash run_server_ros.sh');
-          return;
-        }
+        // The Pi may have just powered on. Give systemd time to source ROS,
+        // start FastAPI, and bind the API port before using SSH fallback.
         setState(
-          () => _status = 'Starting backend via SSH (${pi!.username}@${pi.ip})...',
+          () => _status = 'Waiting for robot-api.service to start...',
         );
-        await _remote.ensureBackendRunning(pi: pi, password: _piPassCtrl.text);
+        var becameUp = false;
+        for (var attempt = 0; attempt < 20; attempt++) {
+          await Future.delayed(const Duration(seconds: 2));
+          if (await _remote.isBackendUp(pi.ip, pi.apiPort)) {
+            becameUp = true;
+            break;
+          }
+        }
+
+        if (becameUp) {
+          setState(() => _status = 'Backend started — signing in...');
+        } else {
+          // Optional recovery path for a Pi that has not had systemd setup
+          // completed yet. Normal operation never needs the SSH password.
+          final reachErr = await _remote.checkApiReachable(pi);
+          if (reachErr != null && reachErr.contains('Network unreachable')) {
+            throw Exception(reachErr);
+          }
+          if (_piPassCtrl.text.isEmpty) {
+            setState(
+              () => _error =
+                  'Backend did not start automatically.\n'
+                  'Run once on the Pi:\n'
+                  '  bash ~/raspberry_pi/install_pi_services.sh\n\n'
+                  'Or enter the optional Pi SSH password to start it now.',
+            );
+            return;
+          }
+          setState(
+            () => _status =
+                'Starting backend via SSH (${pi!.username}@${pi.ip})...',
+          );
+          await _remote.ensureBackendRunning(
+            pi: pi,
+            password: _piPassCtrl.text,
+          );
+        }
       }
 
       await PrefsService.saveConnection(pi.ip, pi.apiPort.toString());
@@ -359,7 +404,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           )
                         else if (_devices.isEmpty)
                           const Text(
-                            'No Pi detected yet. Tap Scan after starting backend + beacon on the Pi.',
+                            'Power on the robot. The backend and beacon start automatically; then tap Scan.',
                             style: TextStyle(
                               fontSize: 13,
                               color: AppColors.textSecondary,
@@ -432,7 +477,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: _obscurePi,
                           enabled: !_loading,
                           decoration: InputDecoration(
-                            labelText: 'Pi password (SSH, if backend not running)',
+                            labelText: 'Pi password (optional SSH fallback)',
                             prefixIcon: const Icon(Icons.lock_outline),
                             suffixIcon: IconButton(
                               icon: Icon(

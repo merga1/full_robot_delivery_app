@@ -6,7 +6,8 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=@USER@
-ExecStart=/usr/bin/python3 @HOME@/raspberry_pi/pi_beacon.py
+WorkingDirectory=@APP_DIR@
+ExecStart=@PYTHON@ @APP_DIR@/pi_beacon.py
 Restart=always
 RestartSec=3
 
