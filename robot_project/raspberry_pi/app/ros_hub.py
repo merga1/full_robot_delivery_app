@@ -57,6 +57,7 @@ except Exception as exc:  # ImportError, or a broken ROS install
 # ── Configuration ─────────────────────────────────────────────────────────────
 
 CMD_VEL_TOPIC = env_str("REAL1_CMD_VEL_TOPIC", "/cmd_vel")
+CMD_VEL_TOPIC = env_str("REAL1_CMD_VEL_TOPIC", "/cmd_vel_joy")
 LINEAR_SCALE = env_float("REAL1_CMD_VEL_LINEAR_SCALE", 1.0)
 ANGULAR_SCALE = env_float("REAL1_CMD_VEL_ANGULAR_SCALE", 1.0)
 MAX_LINEAR = env_float("ROBOT_MAX_LINEAR", 0.6)      # m/s safety clamp (before scale)
@@ -550,6 +551,14 @@ if ROS_AVAILABLE:
                 durability=DurabilityPolicy.TRANSIENT_LOCAL,
             )
             self.create_subscription(PoseWithCovarianceStamped, AMCL_TOPIC, self._on_amcl, latched)
+            # Nav2 AMCL publishes /amcl_pose with VOLATILE durability.
+            # Requesting TRANSIENT_LOCAL causes DDS QoS incompatibility and drops all pose messages.
+            amcl_qos = QoSProfile(
+                depth=1,
+                reliability=ReliabilityPolicy.RELIABLE,
+                durability=DurabilityPolicy.VOLATILE,
+            )
+            self.create_subscription(PoseWithCovarianceStamped, AMCL_TOPIC, self._on_amcl, amcl_qos)
             self.create_subscription(OccupancyGrid, MAP_TOPIC, self._on_map, latched)
             if BATTERY_TOPIC:
                 from sensor_msgs.msg import BatteryState

@@ -12,6 +12,7 @@ hub = rh.RosHub(); hub.start()
 node = hub._node
 assert hub.ready and not hub.sim
 assert node.pubs["/cmd_vel"] is not None and "/amcl_pose" in node.subs and "/map" in node.subs
+assert node.pubs[rh.CMD_VEL_TOPIC] is not None and "/amcl_pose" in node.subs and "/map" in node.subs
 
 stop = threading.Event()
 def pump():                       # plays the role of the executor's 20 Hz timer
@@ -21,6 +22,7 @@ threading.Thread(target=pump, daemon=True).start()
 
 client = node.nav_client
 cmd_pub = node.pubs["/cmd_vel"]
+cmd_pub = node.pubs[rh.CMD_VEL_TOPIC]
 
 def amcl(x, y, z, w, cov):
     node._on_amcl(NS(pose=NS(pose=NS(position=NS(x=x, y=y, z=0.0),
@@ -117,6 +119,7 @@ img = Image.open(io.BytesIO(png)); assert img.getpixel((0, 3)) == 0 and img.getp
 # 12. graph sampling: expected nodes + cmd_vel subscribers come from the graph, no CLI
 node.node_names = ["robot_api_hub", "amcl", "bt_navigator", "controller_manager", "map_server"]
 node.sub_infos["/cmd_vel"] = ["twist_mux"]
+node.sub_infos[rh.CMD_VEL_TOPIC] = ["twist_mux"]
 node._graph_tick(); g = hub.graph()
 assert g["cmd_vel_subs"] == 1 and g["cmd_vel_sub_nodes"] == ["twist_mux"] and "robot_api_hub" not in g["nodes"]
 

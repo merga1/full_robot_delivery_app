@@ -43,6 +43,12 @@ fi
 
 echo "Installing Pi services for user ${USER_NAME}..."
 
+# Verify sudo access upfront so failures are clear
+if ! sudo -v; then
+  echo "Error: sudo credentials required to install systemd services." >&2
+  exit 1
+fi
+
 chmod +x "${APP_DIR}/pi_beacon.py" "${APP_DIR}/run_server_ros.sh" \
   "${APP_DIR}/start_backend.sh" 2>/dev/null || true
 
@@ -60,6 +66,7 @@ install_unit() {
   local template="${APP_DIR}/${unit_name}"
   if [ ! -f "${template}" ]; then
     echo "Missing ${template}" >&2
+    echo "Missing template ${template}" >&2
     exit 1
   fi
 
@@ -77,20 +84,35 @@ install_unit "robot-beacon.service"
 install_unit "robot-api.service"
 
 sudo systemctl daemon-reload
+echo "Enabling and starting robot-beacon.service..."
 sudo systemctl enable --now robot-beacon.service
 
 if ! ${SKIP_API}; then
+  echo "Enabling and starting robot-api.service..."
   sudo systemctl enable --now robot-api.service
 fi
 
+sleep 2
+
 echo ""
 echo "Beacon:  $(systemctl is-active robot-beacon.service || true)"
+echo "Beacon status:  $(systemctl is-active robot-beacon.service || true)"
 if ! ${SKIP_API}; then
   echo "API:     $(systemctl is-active robot-api.service || true)"
   echo "Enabled: $(systemctl is-enabled robot-api.service || true)"
   echo "The API will run run_server_ros.sh automatically after every boot."
+  API_STATUS="$(systemctl is-active robot-api.service || true)"
+  echo "API status:     ${API_STATUS}"
+  echo "API enabled:    $(systemctl is-enabled robot-api.service || true)"
+  if [ "${API_STATUS}" != "active" ]; then
+    echo "[WARN] robot-api.service is not active yet. Recent service logs:"
+    sudo journalctl -u robot-api.service -n 20 --no-pager || true
+  else
+    echo "The API is running on port 8000 and will auto-start on boot."
+  fi
 else
   echo "API: not enabled (--no-api was supplied)"
 fi
 echo ""
 echo "Check logs with: journalctl -u robot-api.service -f"
+echo "Check full logs anytime with: journalctl -u robot-api.service -f"
