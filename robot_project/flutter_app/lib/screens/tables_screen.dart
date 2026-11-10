@@ -5,7 +5,6 @@ import '../models/ordering_models.dart';
 import '../services/ordering_service.dart';
 import '../services/robot_service.dart';
 import '../theme/app_theme.dart';
-import '../widgets/action_button.dart';
 
 /// The tables of the restaurant.  Every table has a code and a QR code that
 /// the customer scans to order — this screen creates them, shows the QR code
